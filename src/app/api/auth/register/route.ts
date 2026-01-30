@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     const supabase = createSupabaseAdminClient();
 
     const staticCode = (process.env.AUTH_STATIC_VERIFY_CODE ?? "").trim();
-    const allowStatic = Boolean(staticCode) && process.env.NODE_ENV !== "production";
+    const allowStatic = Boolean(staticCode);
 
     const { data: existing } = await supabase
       .from("users")

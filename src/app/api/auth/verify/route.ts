@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const code = (body.code ?? "").trim();
 
     const staticCode = (process.env.AUTH_STATIC_VERIFY_CODE ?? "").trim();
-    const allowStatic = Boolean(staticCode) && process.env.NODE_ENV !== "production";
+    const allowStatic = Boolean(staticCode);
 
     if (!email || code.length < 6) {
       return NextResponse.json(
