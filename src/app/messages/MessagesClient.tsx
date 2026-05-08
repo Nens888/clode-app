@@ -368,6 +368,27 @@ export function MessagesClient() {
     }
   };
 
+  // Polling fallback for messages - always runs as backup
+  useEffect(() => {
+    if (!selectedId) return;
+    
+    const pollId = window.setInterval(() => {
+      if (!selectedIdRef.current) return;
+      void reloadMessages(selectedIdRef.current, { silent: true });
+    }, 3000);
+    
+    return () => window.clearInterval(pollId);
+  }, [selectedId]);
+
+  // Also poll chats list periodically
+  useEffect(() => {
+    const chatPollId = window.setInterval(() => {
+      void reloadChats();
+    }, 5000);
+    
+    return () => window.clearInterval(chatPollId);
+  }, []);
+
   useEffect(() => {
     if (!selectedId) return;
     if (!me?.id) return;
@@ -379,15 +400,9 @@ export function MessagesClient() {
       supabase = null;
     }
 
-    if (!supabase) {
-      const id = window.setInterval(() => {
-        if (!selectedIdRef.current) return;
-        void reloadMessages(selectedIdRef.current, { silent: true });
-        void reloadChats();
-      }, 4000);
-      return () => window.clearInterval(id);
-    }
-
+    // Realtime subscription - primary method
+    if (!supabase) return;
+    
     const channel = supabase
       .channel(`dm:${selectedId}`)
       .on(
