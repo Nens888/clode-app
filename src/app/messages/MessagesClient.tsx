@@ -839,7 +839,11 @@ export function MessagesClient() {
                     <div className="truncate text-sm font-semibold text-white/90">
                       {c.other?.displayName ?? "Чат"}
                     </div>
-                    {c.other?.verif ? <BadgeCheck size={14} className="shrink-0 text-[#38bdf8]" /> : null}
+                    {c.other?.verif ? (
+                      <span title="Разработчик">
+                        <BadgeCheck size={14} className="shrink-0 text-[#38bdf8]" />
+                      </span>
+                    ) : null}
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="truncate text-xs text-white/40">
