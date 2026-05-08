@@ -2,17 +2,23 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AuthCard } from "@/components/AuthCard";
 import { cn } from "@/lib/cn";
 import { ArrowLeft, Key } from "lucide-react";
 
 export function VerifyCodeForm() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("auth_email") ?? "";
+    setEmail(saved);
+  }, []);
 
   const handleCodeChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value)) return;
@@ -52,13 +58,13 @@ export function VerifyCodeForm() {
       const res = await fetch("/api/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: fullCode }),
+        body: JSON.stringify({ email, code: fullCode }),
       });
 
       const data = (await res.json()) as { ok?: boolean; error?: string };
       if (!res.ok) throw new Error(data.error ?? "Неверный код");
 
-      router.push("/auth/register");
+      router.push("/");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Неверный код");
@@ -132,7 +138,7 @@ export function VerifyCodeForm() {
 
           <div className="flex justify-center">
             <Link 
-              href="/auth/login" 
+              href="/auth/register" 
               className="flex items-center gap-2 text-sm text-white/45 hover:text-white/80 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
