@@ -4,6 +4,7 @@ import { CreatePost } from "@/components/CreatePost";
 import { GlassCard } from "@/components/GlassCard";
 import { PostCard } from "@/components/PostCard";
 import { Tabs } from "@/components/Tabs";
+import { WelcomeBack } from "@/components/WelcomeBack";
 import { useFeedStore } from "@/store/feedStore";
 import { useEffect } from "react";
 
@@ -17,6 +18,8 @@ export default function Home() {
 
   return (
     <div className="space-y-4">
+      <WelcomeBack />
+
       <GlassCard>
         <CreatePost />
       </GlassCard>
