@@ -183,7 +183,7 @@ export function RegisterForm() {
                     focused === "username" ? "border-[#0ea5e9]/50 bg-white/[0.06]" : "border-white/[0.06]"
                   )}
                 />
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs">
+                <div className="absolute right-4 top-1/3 -translate-y-1/2 text-xs">
                   <span className={cn(
                     usernameStatus === "available" && "text-green-400",
                     usernameStatus === "taken" && "text-red-400",
