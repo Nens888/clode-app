@@ -97,7 +97,9 @@ export function PostCard({ post }: { post: Post }) {
                   {post.authorName}
                 </div>
                 {post.verif ? (
-                  <BadgeCheck size={14} className="shrink-0 text-[#38bdf8]" />
+                  <span title="Разработчик">
+                    <BadgeCheck size={14} className="shrink-0 text-[#38bdf8]" />
+                  </span>
                 ) : null}
               </div>
               <div className="text-xs text-white/40">@{post.username} · {formatPostDate(post.createdAt)}</div>
